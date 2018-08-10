@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Yoti Mini Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://sdk.yoti.com/clients/browser.2.1.0.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h1>Comments</h1>
+  <div class="content">
+    {{if .AnyFlash}}
+    <div class="alert aleçrt-success">{{.FlashMessage}}</div>
+    {{end}}
+    {{if .Login}}
+    <form action="./comments" method="POST">
+        <div class="form-group">
+           <textarea class="form-control" name="comment" rows="3" placeholder="Any comment..."></textarea>
+        </div>
+        <div class="form-check">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" name="anonymous" value="true">Don't post personal detail
+        </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {{else}}
+    <div class="row">
+    <a class="btn button yoti-connect learn-more btn-primary" data-target='embed' data-yoti-application-id='{{.YotiAppID}}'>Login with Yoti to comment</a>
+    </div>
+    <script>
+      _ybg.init()
+    </script>
+    {{end}}
+  </div>
+  <div class="content">
+    <div class="row">
+        {{range .Comments}}
+        <div class="col-6">
+          <div class="row">
+              <div class="col-3">
+                  {{if .Anonymous}}
+                    <img src="/images/anonymous" class="img-thumbnail"/>
+                  {{else}}
+                    <img src="/images/{{.UserID}}" class="img-thumbnail"/>
+                  {{end}}
+              </div>
+              <div class="col-9">
+                {{if .Anonymous}}
+                <b>Anonymous</b>
+                {{else}}
+                <b>{{.Email}}<br/>{{.Phone}}</b>
+                {{end}}
+                <div>{{.HTML}}</div>
+              </div>
+          </div>
+        </div>
+        {{end}}
+      
+    </div>
+  </div>
+</div>
+</body>
+</html>
